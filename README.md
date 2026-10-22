@@ -1,26 +1,26 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-"# SmartGym" 
+## SmartGym
 
-Short summary
-- SmartGym is an ESP32-based gym access and environment controller using RFID and a simple web UI. It manages subscribers, opens/closes a servo door, plays audio, controls LEDs and a fan, and exposes a small web interface for registration and login.
+#Overview
 
-Features
-- RFID registration and login via web UI.
-- Numeric code login via on-screen keypad.
-- Per-subscriber visit counting and simple time-based exit.
-- Door control using a servo.
-- NeoPixel LED effects controlled by distance sensor and microphone level.
-- MP3 playback control via serial to an audio module.
-- Temperature-based fan control.
+SmartGym is an ESP32-based smart gym access and automation system that combines RFID authentication, a web-based interface, and sensor-driven hardware control. The system allows gym members to register and log in using an RFID card or a numeric access code, while automating door access and environmental controls.
 
-Quick start (build & upload)
+#Features
+- Member Management: Web-based registration and login, subscriber records, and visit counting.
+- Access Control: RFID and numeric-code authentication with servo-controlled door opening and closing.
+- Sensor Integration: Ultrasonic distance sensing, microphone input, and temperature monitoring.
+- Automated Hardware Control: NeoPixel LED effects, temperature-based fan control, and MP3 audio playback.
+- Web Interface: HTTP server hosted on the ESP32 for member registration and login.
+- Embedded Development: Integration of sensors, actuators, communication interfaces, and control logic within a microcontroller-based system.
+
+#Quick start (build & upload)
 1. Open this project with the Arduino IDE or PlatformIO.
 2. Select the appropriate ESP32 board and COM port.
 3. Include required libraries: Servo, Wire, Adafruit_NeoPixel, WiFi, SPIFFS, MFRC522, SPI.
 4. Upload the sketch file [sketch_may22b_copy_20250522215355.ino](sketch_may22b_copy_20250522215355.ino).
 
-Wiring (high level)
+#Wiring (high level)
 - RFID serial -> Serial1 pins (RXD2/TXD2).
 - Servo -> GPIO 13 (attached in setup).
 - Ultrasonic: TRIG_PIN (2), ECHO_PIN (15).
@@ -30,7 +30,7 @@ Wiring (high level)
 - Microphone ADC -> micPin (34).
 - MP3 module -> specified RX/TX pins (see [Sensor_mp3.ino](Sensor_mp3.ino)).
 
-Web UI
+#Web UI
 - The ESP32 runs an HTTP server on port 80. Use the main page to choose "sign up" or "log in".
 - Registration flow:
   - Open [GET /register handled by sendRegisterPage](handle_web.ino) and place RFID tag on the reader before submitting the form.
@@ -38,7 +38,7 @@ Web UI
   - RFID: place tag then use [GET /login handled by sendLoginPageWithOptions](handle_web.ino).
   - Code: use the on-screen keypad which posts to [POST /check_code handled in handle_web.ino](handle_web.ino).
 
-Important functions & symbols
+#Important functions & symbols
 - [`checkDistance`](Sensor_distance.ino) — distance sensor & NeoPixel wave/color logic
 - [`handleWeb`](handle_web.ino) — main HTTP request handler
 - [`readRFID`](handle_web.ino) / [`extract_tag`](handle_web.ino) — RFID parsing
@@ -54,7 +54,17 @@ Important functions & symbols
 - [`Subscriber` struct and main loop/setup](sketch_may22b_copy_20250522215355.ino)
 - [`Servo` class header`](Servo.h)
 
-Workspace files
+#Technologies
+
+- ESP32
+- Arduino / C++
+- RFID (MFRC522)
+- Wi-Fi and HTTP
+- Ultrasonic distance sensor
+- Temperature sensor and microphone
+- Servo motor, NeoPixel LEDs, fan, and MP3 module
+
+#Workspace files
 - [client.ino](client.ino)
 - [handle_web.ino](handle_web.ino)
 - [README.md](README.md)
@@ -69,7 +79,7 @@ Workspace files
 - [Servo.h](Servo.h)
 - [sketch_may22b_copy_20250522215355.ino](sketch_may22b_copy_20250522215355.ino)
 
-Notes & TODO
+#Notes & TODO
 - Validate and normalize subscriptionType strings between UI and logic (UI uses "Monthly/Yearly/One-time" while logic checks "month/year/day").
 - Add persistent storage for subscribers (SPIFFS or LittleFS) to survive reboots.
 - Improve concurrency/clients handling and HTTP request parsing for larger bodies.
